@@ -3,7 +3,7 @@ nav:
   - about.md
   - FFMpeg:
     - ffmpeg/index.md
-  - Home%20Assistant:
+  - Home Assistant:
     - home-assistant/index.md
 site_url: https://gira0.github.io
 site_name: Docs

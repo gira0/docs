@@ -6,7 +6,7 @@ This section covers FFMpeg encoding tips, example commands, and common options.
 
 - Example: convert input to H.264 MP4:
 
-```
+```sh
 ffmpeg -i input.mkv -c:v libx264 -preset medium -crf 23 -c:a aac output.mp4
 ```
 
