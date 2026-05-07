@@ -80,6 +80,14 @@ Unfortunately the not-so-fun part follows, you need to convert the certificate t
 openssl pkcs12 -export -out ha-cert.pfx -inkey key.pem -in cert.pem -password pass:password
 ```
 
+On windows this should do the trick(untested but hopefully works):
+
+```powershell
+$cert = [System.Security.Cryptography.X509Certificates.X509Certificate2]::CreateFromPemFile("cert.pem", "key.pem")
+$pfxBytes = $cert.Export([System.Security.Cryptography.X509Certificates.X509ContentType]::Pfx, "password")
+[System.IO.File]::WriteAllBytes("$PWD\ha-cert.pfx", $pfxBytes)
+```
+
 Copy this certificate to all devices that you want to access the home assistant, How to import the certificate depends on the device, but usually you can just click on the file and it should ask you to import it, Good luck!
 
 ##### Security Rules
