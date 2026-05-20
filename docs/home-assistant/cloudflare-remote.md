@@ -40,6 +40,12 @@ This is required so that the data from the proxy created by cloudflared is actua
 
 ### Setup in cloudflare dashboard
 
+#### Setup the Domain
+
+IMPORTANT: Speed > Settings > Protocol Optimizations > HTTP/3 (with QUIC) NEEDS TO BE DISABLED!
+
+Quic doesn't support Cert auth wich will become important later! If this is not disabled you will get it randomly working and then break. Disable this!
+
 #### Tunnel
 
 In the dashboard where you have your domain already set up, just go to the search (CTRL+K) just search for `Tunnels`, you should end up in the `Protect & Connect` > `Networking` > `Tunnels` area, There, click on the top right `Create Tunnel`,
