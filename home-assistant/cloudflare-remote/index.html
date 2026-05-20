@@ -1,0 +1,976 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://gira0.github.io/home-assistant/cloudflare-remote/">
+      
+      
+        <link rel="prev" href="../">
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>Cloudflare remote with cert-auth - Docs</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#cloudflare-remote-with-cert-auth" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Docs" class="md-header__button md-logo" aria-label="Docs" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Docs
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Cloudflare remote with cert-auth
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Docs" class="md-nav__button md-logo" aria-label="Docs" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Docs
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Welcome to Docs
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../about/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    About
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    FFMpeg
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    FFMpeg
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ffmpeg/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    FFMpeg Encoding
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home Assistant
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Home Assistant
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home Assistant
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Cloudflare remote with cert-auth
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Cloudflare remote with cert-auth
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-add-cloudflared-add-on" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Add cloudflared add-on
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-setup-the-cloudflared-app" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Setup the cloudflared app
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Setup the cloudflared app">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Configuration
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#home-assistant-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Home Assistant configuration
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#setup-in-cloudflare-dashboard" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Setup in cloudflare dashboard
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Setup in cloudflare dashboard">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#setup-the-domain" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Setup the Domain
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tunnel" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tunnel
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#route" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Route
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#access-control-with-cert-auth" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Access control with cert-auth
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Access control with cert-auth">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#security-rules" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Security Rules
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Security Rules">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#rule-1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Rule 1
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rule-2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Rule 2
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-add-cloudflared-add-on" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Add cloudflared add-on
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-setup-the-cloudflared-app" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Setup the cloudflared app
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Setup the cloudflared app">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Configuration
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#home-assistant-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Home Assistant configuration
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#setup-in-cloudflare-dashboard" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Setup in cloudflare dashboard
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Setup in cloudflare dashboard">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#setup-the-domain" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Setup the Domain
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tunnel" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tunnel
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#route" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Route
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#access-control-with-cert-auth" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Access control with cert-auth
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Access control with cert-auth">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#security-rules" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Security Rules
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Security Rules">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#rule-1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Rule 1
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rule-2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Rule 2
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="cloudflare-remote-with-cert-auth">Cloudflare remote with cert-auth</h1>
+<h2 id="1-add-cloudflared-add-on">1. Add cloudflared add-on</h2>
+<p>First, add the cloudflared app: https://github.com/homeassistant-apps/app-cloudflared/</p>
+<p>Check out the repo or click this link here, it's part of the Unofficial Home Assistant Apps (Add-ons) repos, perhaps you already have it:</p>
+<p><a href="https://my.home-assistant.io/redirect/supervisor_add_addon_repository/?repository_url=https%3A%2F%2Fgithub.com%2Fhomeassistant-apps%2Frepository"><img alt="Add Repository to HA" src="https://my.home-assistant.io/badges/supervisor_add_addon_repository.svg" /></a></p>
+<h2 id="2-setup-the-cloudflared-app">2. Setup the cloudflared app</h2>
+<p>We need a Cloudflare account for this, and a domain name. I recommend a .xyz domain (https://gen.xyz/premiums) since there are options where you can get a domain for 0.99 USD a year, For a domain that is entered once and then not really ever seen again, a numeric domain works well (example: 0101010.xyz), You can use any domain you want, just get one and set it up with Cloudflare, Buying directly from Cloudflare reduces setup and avoids extra markup,</p>
+<p>After you install the app, ensure the <code>Start on boot</code> and <code>Watchdog</code> options in the app are enabled so the app is always running, You can also enable <code>Auto update</code> if you are comfortable with that,</p>
+<h3 id="configuration">Configuration</h3>
+<p>In the configuration you have the following fields we need to fill in:</p>
+<ul>
+<li>External Home Assistant URL: This is the Domain you want to setup, I recommend choosing a subdomain for this, also gives the option to host more than one service on the same domain, Example: <code>ha.0101010.xyz</code></li>
+<li>Cloudflare Tunnel Name: The name of the cloudflare tunnel, I recommend adding the domain name here as well, example: <code>ha-0101010-xyz</code></li>
+<li>Cloudflare Tunnel Token: This is the token we are going to generate, It is important to keep it secret</li>
+</ul>
+<h3 id="home-assistant-configuration">Home Assistant configuration</h3>
+<p>You need to add the following configuration to your <code>configuration.yaml</code> file,</p>
+<pre><code class="language-yaml">http:
+  use_x_forwarded_for: true
+  trusted_proxies:
+    - 172.30.33.0/24
+</code></pre>
+<p>This is required so that the data from the proxy created by cloudflared is actually trusted and received by Home Assistant, The IP range <code>172.30.33.0/24</code> is used by cloudflared and is a private IP range, so there is no security risk in trusting it,</p>
+<h3 id="setup-in-cloudflare-dashboard">Setup in cloudflare dashboard</h3>
+<h4 id="setup-the-domain">Setup the Domain</h4>
+<p>IMPORTANT: Speed &gt; Settings &gt; Protocol Optimizations &gt; HTTP/3 (with QUIC) NEEDS TO BE DISABLED!</p>
+<p>Quic doesn't support Cert auth wich will become important later! If this is not disabled you will get it randomly working and then break. Disable this!</p>
+<h4 id="tunnel">Tunnel</h4>
+<p>In the dashboard where you have your domain already set up, just go to the search (CTRL+K) just search for <code>Tunnels</code>, you should end up in the <code>Protect &amp; Connect</code> &gt; <code>Networking</code> &gt; <code>Tunnels</code> area, There, click on the top right <code>Create Tunnel</code>,</p>
+<p>Set up the following things,</p>
+<ul>
+<li>Tunnel Name: Name of the tunnel, the name you need to enter in the home assistant, This can be whatever you want, I recommend adding the domain name here as well, example: <code>ha-0101010-xyz</code>, then press <code>continue</code>,</li>
+<li>Setup Environment: Here you get the Cloudflare Tunnel Token that you need to enter in the cloudflared app, You can choose any operating system, copy the text from the <code>Run the following command</code> area into a text file, Example command: <code>cloudflared.exe service install eyJhIjoiZmVlMjUzZDA0MDJlODY2NDc4ODQ0ZTkxMGQ4MWU4ZGIiLCJ0IjoiMTJlMGRiYWItYzczYi00ZmRjLWFkZTQtMDFjZWIxZTFjOTEyIiwicyI6Ik5ERTJPVEJrTW1FdE1XVTVPUzAwTlRjM0xXRXhNamd0TWpJell6bGxOVFJrTkdJeiJ9</code>, Copy the token part at the end into the Home Assistant app and press save,</li>
+</ul>
+<p>You can only continue if the cloudflared app is now running with the hostname, tunnel name and tunnel token, The website will wait and check if the tunnel is up and running, if it is, you can continue and are done with this step,</p>
+<h4 id="route">Route</h4>
+<p>You should still be in the <code>Tunnels</code> area, click the tunnel you created, then click the <code>Add route</code> button, Here you need to set up the following,</p>
+<ul>
+<li>Route: This is the domain you want to use (example: <code>ha</code>), then select the domain (example: <code>0101010.xyz</code>), so the full domain will be <code>ha.0101010.xyz</code>,</li>
+<li>Service URL: This is the URL the cloudflare tunnel will forward the traffic to on your system, some guides just enter the IP, I recommend the proper URL that is <code>http://homeassistant.local.hass.io:8123</code> so you are safe should your IP change,</li>
+</ul>
+<p>After this setup, your address should be up and running and you can test it out, You are already done if you trust Home Assistant's security and have set up a strong password, If you want to be extra safe, continue with the next step, which I strongly recommend,</p>
+<h4 id="access-control-with-cert-auth">Access control with cert-auth</h4>
+<p>Go to the search again (CTRL+K) and search for <code>Client Certificates</code> and choose the domain if asked, Top right, create a new certificate,</p>
+<p>Select the following options,</p>
+<ul>
+<li>Certificate Authority: <code>Cloudflare Origin CA</code>, it's just simpler,</li>
+<li>Private Key Type: <code>ECC</code>, it's more secure than the 2048 bit RSA and also faster, so it's a win win,</li>
+<li>Certificate Validity: <code>15 years</code>, you don't want to have to renew this every year, so just go with the maximum,</li>
+</ul>
+<p>You can now download the certificate, choose <code>PEM</code> for <code>Key Format</code>, and copy the <code>Certificate</code> and <code>Private Key</code> into separate text files,</p>
+<p>After this it asks you to add an <code>Associated Hostname</code>, enter the domain you've chosen for Home Assistant (example: <code>ha.0101010.xyz</code>), then press <code>Add</code> and <code>Save</code>,</p>
+<p>Unfortunately the not-so-fun part follows, you need to convert the certificate to PFX format (recommended with a password for compatibility), On Linux this is quite easy, run the following command in the terminal, making sure to change the file names and password,</p>
+<pre><code class="language-sh">openssl pkcs12 -export -out ha-cert.pfx -inkey key.pem -in cert.pem -password pass:password
+</code></pre>
+<p>On windows this should do the trick(untested but hopefully works):</p>
+<pre><code class="language-powershell">$cert = [System.Security.Cryptography.X509Certificates.X509Certificate2]::CreateFromPemFile(&quot;cert.pem&quot;, &quot;key.pem&quot;)
+$pfxBytes = $cert.Export([System.Security.Cryptography.X509Certificates.X509ContentType]::Pfx, &quot;password&quot;)
+[System.IO.File]::WriteAllBytes(&quot;$PWD\ha-cert.pfx&quot;, $pfxBytes)
+</code></pre>
+<p>Copy this certificate to all devices that you want to access the home assistant, How to import the certificate depends on the device, but usually you can just click on the file and it should ask you to import it, Good luck!</p>
+<h5 id="security-rules">Security Rules</h5>
+<h6 id="rule-1">Rule 1</h6>
+<p>Firewall rules are needed to actually secure the domain, In the <code>Client Certificates</code> area, click the <code>Create mTLS Rule</code> button and set up the following,</p>
+<ul>
+<li>Enforce mTLS authentication: <code>Client certificate Verified</code> set to <code>true</code>,</li>
+<li>Hostname: <code>equals</code> and then enter the domain you chose (example: <code>ha.0101010.xyz</code>),</li>
+</ul>
+<p>In the <code>Choose action</code> dropdown, select <code>Skip</code> and then click on <code>WAF components to skip</code> <code>All remaining custom rules</code>,
+Then <code>Place at</code> <code>Select order</code> <code>First</code> and then <code>Save</code>,</p>
+<h5 id="rule-2">Rule 2</h5>
+<p>This rule is to block all traffic that doesn't have a valid client certificate, so it blocks all traffic that doesn't have the right certificate, which is basically all traffic that is not from you or someone you shared the certificate with,</p>
+<ul>
+<li>Hostname: <code>equals</code> and then enter the domain you chose (example: <code>ha.0101010.xyz</code>),</li>
+</ul>
+<p>In the <code>Choose action</code> dropdown, select <code>Block</code>,</p>
+<p>Then <code>Place at</code> <code>Select order</code> <code>Last</code> and then <code>Save</code>,</p>
+<p>DONE</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": [], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>
